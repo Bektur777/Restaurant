@@ -50,4 +50,7 @@ public class PersonDetails implements UserDetails {
         return true;
     }
 
+    public Person getPerson() {
+        return person;
+    }
 }
