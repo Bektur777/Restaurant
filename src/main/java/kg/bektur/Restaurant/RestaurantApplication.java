@@ -13,7 +13,7 @@ public class RestaurantApplication {
 	}
 
 	@Bean
-	ModelMapper modelMapper() {
+	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
 
