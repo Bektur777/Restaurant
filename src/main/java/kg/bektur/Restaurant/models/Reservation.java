@@ -15,6 +15,9 @@ public class Reservation {
     private LocalDateTime startDate;
     @Column(name = "end_date")
     private LocalDateTime endDate;
+    @ManyToOne
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private Person person;
 
     public Reservation() {}
 
@@ -40,6 +43,14 @@ public class Reservation {
 
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override
