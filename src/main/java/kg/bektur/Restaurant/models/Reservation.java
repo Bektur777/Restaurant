@@ -18,6 +18,9 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Person person;
+    @ManyToOne
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private SeatReservation seatReservation;
 
     public Reservation() {}
 
@@ -51,6 +54,14 @@ public class Reservation {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public SeatReservation getSeatReservation() {
+        return seatReservation;
+    }
+
+    public void setSeatReservation(SeatReservation seatReservation) {
+        this.seatReservation = seatReservation;
     }
 
     @Override

@@ -2,6 +2,8 @@ package kg.bektur.Restaurant.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Seat_Reservation")
 public class SeatReservation extends AbstractEntity {
@@ -18,6 +20,8 @@ public class SeatReservation extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Restaurant owner;
+    @OneToMany(mappedBy = "seatReservation", cascade = CascadeType.PERSIST)
+    private List<Reservation> reservationList;
     public SeatReservation() {}
 
     public int getId() {
@@ -58,6 +62,14 @@ public class SeatReservation extends AbstractEntity {
 
     public void setOwner(Restaurant owner) {
         this.owner = owner;
+    }
+
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
     }
 
     @Override
