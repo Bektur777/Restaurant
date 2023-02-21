@@ -5,7 +5,7 @@ import kg.bektur.Restaurant.models.Restaurant;
 
 import java.util.List;
 
-public class SeatReservationDto {
+public class SeatReservationDto extends AbstractDto {
     private int id;
     private int seatNumber;
     private int capacity;
