@@ -21,6 +21,9 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id")
     private SeatReservation seatReservation;
+    @ManyToOne
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private Restaurant restaurant;
 
     public Reservation() {}
 
@@ -64,13 +67,20 @@ public class Reservation {
         this.seatReservation = seatReservation;
     }
 
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "id=" + id +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                '}';
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public Reservation(int id, LocalDateTime startDate, LocalDateTime endDate, Person person, SeatReservation seatReservation, Restaurant restaurant) {
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.person = person;
+        this.seatReservation = seatReservation;
+        this.restaurant = restaurant;
+    }
 }

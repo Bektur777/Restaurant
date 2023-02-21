@@ -21,6 +21,8 @@ public class Restaurant extends AbstractEntity {
     private String phone;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<SeatReservation> seatReservationList;
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.PERSIST)
+    private List<Reservation> reservationList;
 
     public Restaurant() {}
 
@@ -72,6 +74,14 @@ public class Restaurant extends AbstractEntity {
         this.seatReservationList = seatReservationList;
     }
 
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +
@@ -80,6 +90,8 @@ public class Restaurant extends AbstractEntity {
                 ", description='" + description + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
+                ", seatReservationList=" + seatReservationList +
+                ", reservationList=" + reservationList +
                 '}';
     }
 
