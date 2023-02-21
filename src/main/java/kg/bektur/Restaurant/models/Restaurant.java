@@ -2,6 +2,8 @@ package kg.bektur.Restaurant.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Restaurant")
 public class Restaurant extends AbstractEntity {
@@ -17,6 +19,8 @@ public class Restaurant extends AbstractEntity {
     private String address;
     @Column(name = "phone")
     private String phone;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<SeatReservation> seatReservationList;
 
     public Restaurant() {}
 
@@ -58,6 +62,14 @@ public class Restaurant extends AbstractEntity {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<SeatReservation> getSeatReservationList() {
+        return seatReservationList;
+    }
+
+    public void setSeatReservationList(List<SeatReservation> seatReservationList) {
+        this.seatReservationList = seatReservationList;
     }
 
     @Override
