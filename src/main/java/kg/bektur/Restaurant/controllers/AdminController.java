@@ -1,8 +1,10 @@
 package kg.bektur.Restaurant.controllers;
 
 import kg.bektur.Restaurant.dto.PersonDto;
+import kg.bektur.Restaurant.dto.RestaurantDto;
 import kg.bektur.Restaurant.mapper.PersonMapper;
-import kg.bektur.Restaurant.models.Person;
+import kg.bektur.Restaurant.mapper.RestaurantMapper;
+import kg.bektur.Restaurant.models.Restaurant;
 import kg.bektur.Restaurant.services.AdminService;
 import kg.bektur.Restaurant.util.ErrorException;
 import kg.bektur.Restaurant.util.ErrorResponse;
@@ -11,7 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -19,11 +23,13 @@ import java.util.stream.Collectors;
 public class AdminController {
     private final AdminService adminService;
     private final PersonMapper personMapper;
+    private final RestaurantMapper restaurantMapper;
 
     @Autowired
-    public AdminController(AdminService adminService, PersonMapper personMapper) {
+    public AdminController(AdminService adminService, PersonMapper personMapper, RestaurantMapper restaurantMapper) {
         this.adminService = adminService;
         this.personMapper = personMapper;
+        this.restaurantMapper = restaurantMapper;
     }
 
     @GetMapping("/all_users")
@@ -57,6 +63,39 @@ public class AdminController {
         } catch (Exception e) {
             throw new ErrorException("Error in updating");
         }
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("/all_restaurant")
+    public List<RestaurantDto> getAllRestaurants() {
+        return adminService.findAllRestaurants().stream().map(restaurantMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/restaurant/{id}")
+    public RestaurantDto getRestaurantById(@PathVariable("id") int id) {
+        Optional<Restaurant> restaurant = adminService.findRestaurantById(id);
+        if (restaurant.isPresent())
+            return restaurantMapper.toDto(restaurant.get());
+
+        throw new ErrorException("Restaurant with this id not found");
+    }
+
+    @PostMapping("/restaurant/create")
+    public ResponseEntity<HttpStatus> createRestaurant(@RequestBody RestaurantDto restaurantDto) {
+        adminService.saveRestaurant(restaurantMapper.toEntity(restaurantDto));
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PatchMapping("/restaurant/update/{id}")
+    public ResponseEntity<HttpStatus> updateRestaurant(@RequestBody RestaurantDto restaurantDto,
+                                                       @PathVariable("id") int id) {
+        adminService.updateRestaurant(restaurantMapper.toEntity(restaurantDto), id);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/restaurant/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteRestaurant(@PathVariable("id") int id) {
+        adminService.deleteRestaurant(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
