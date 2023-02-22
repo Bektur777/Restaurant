@@ -49,6 +49,17 @@ public class AdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @PatchMapping("/user/update/{id}")
+    public ResponseEntity<HttpStatus> updateUserRole(@RequestBody PersonDto personDto,
+                                                     @PathVariable("id") int id) {
+        try {
+            adminService.updateRole(personMapper.toEntity(personDto), id);
+        } catch (Exception e) {
+            throw new ErrorException("Error in updating");
+        }
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handlerException(ErrorException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());

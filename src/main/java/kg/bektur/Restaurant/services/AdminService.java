@@ -33,8 +33,8 @@ public class AdminService {
         peopleRepository.deleteById(id);
     }
 
-    public void updateRole(Person person, String role) {
-        person.setRole(role);
+    public void updateRole(Person person, int id) {
+        person.setId(id);
         peopleRepository.save(person);
     }
 
