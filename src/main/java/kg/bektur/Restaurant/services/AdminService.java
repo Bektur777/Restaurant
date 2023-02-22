@@ -25,6 +25,10 @@ public class AdminService {
         return peopleRepository.findAll();
     }
 
+    public Optional<Person> findUserById(int id) {
+        return peopleRepository.findById(id);
+    }
+
     public void delete(int id) {
         peopleRepository.deleteById(id);
     }

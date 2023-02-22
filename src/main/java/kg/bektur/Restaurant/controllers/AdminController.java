@@ -31,6 +31,14 @@ public class AdminController {
         return adminService.findAllUsers().stream().map(personMapper::toDto).collect(Collectors.toList());
     }
 
+    @GetMapping("/user/{id}")
+    public PersonDto getUserById(@PathVariable("id") int id) {
+        if (adminService.findUserById(id).isPresent())
+            return personMapper.toDto(adminService.findUserById(id).get());
+
+        throw new ErrorException("User with this id not found");
+    }
+
     @PostMapping("/user/delete/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {
         try {
