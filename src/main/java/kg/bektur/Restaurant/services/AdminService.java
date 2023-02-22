@@ -25,8 +25,8 @@ public class AdminService {
         return peopleRepository.findAll();
     }
 
-    public void delete(Person person) {
-        peopleRepository.delete(person);
+    public void delete(int id) {
+        peopleRepository.deleteById(id);
     }
 
     public void updateRole(Person person, String role) {

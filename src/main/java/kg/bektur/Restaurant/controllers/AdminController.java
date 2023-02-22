@@ -5,10 +5,9 @@ import kg.bektur.Restaurant.mapper.PersonMapper;
 import kg.bektur.Restaurant.models.Person;
 import kg.bektur.Restaurant.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +27,12 @@ public class AdminController {
     @GetMapping("/all_users")
     public List<PersonDto> getAllUsers() {
         return adminService.findAllUsers().stream().map(personMapper::toDto).collect(Collectors.toList());
+    }
+
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {
+        adminService.delete(id);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 }
