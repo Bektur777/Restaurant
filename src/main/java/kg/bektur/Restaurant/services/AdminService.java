@@ -50,6 +50,11 @@ public class AdminService {
         restaurantRepository.save(restaurant);
     }
 
+    public void updateRestaurant(Restaurant restaurant, int id) {
+        restaurant.setId(id);
+        restaurantRepository.save(restaurant);
+    }
+
     public void deleteRestaurant(Restaurant restaurant) {
         restaurantRepository.delete(restaurant);
     }
