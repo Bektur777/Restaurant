@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Table(name = "Reservation")
 public class Reservation extends AbstractEntity {
     @Id
-    @Column(name = "id")
+    @Column(name = "id", insertable=false, updatable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "start_date")
@@ -16,13 +16,13 @@ public class Reservation extends AbstractEntity {
     @Column(name = "end_date")
     private LocalDateTime endDate;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
     private Person person;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
     private SeatReservation seatReservation;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
     private Restaurant restaurant;
 
     public Reservation() {}

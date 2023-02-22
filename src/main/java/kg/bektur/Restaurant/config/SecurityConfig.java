@@ -29,19 +29,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeHttpRequests(matcher -> matcher
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().hasAnyRole("USER", "ADMIN"))
-                .formLogin(login -> login
-                        .loginPage("/auth/login")
-                        .loginProcessingUrl("/process_login")
-                        .defaultSuccessUrl("/", true)
-                        .failureUrl("/auth/login?error"))
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/auth/login"));
+                .csrf().disable();
+//                .authorizeHttpRequests(matcher -> matcher
+//                        .requestMatchers("/admin/**").hasRole("ADMIN")
+//                        .requestMatchers("/auth/**").permitAll()
+//                        .anyRequest().hasAnyRole("USER", "ADMIN"))
+//                .formLogin(login -> login
+//                        .loginPage("/auth/login")
+//                        .loginProcessingUrl("/process_login")
+//                        .defaultSuccessUrl("/", true)
+//                        .failureUrl("/auth/login?error"))
+//                .logout(logout -> logout
+//                        .logoutUrl("/logout")
+//                        .logoutSuccessUrl("/auth/login"));
 
         http.sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

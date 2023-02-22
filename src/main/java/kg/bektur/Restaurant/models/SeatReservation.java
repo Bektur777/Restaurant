@@ -18,7 +18,7 @@ public class SeatReservation extends AbstractEntity {
     @Column(name = "description")
     private String description;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
     private Restaurant owner;
     @OneToMany(mappedBy = "seatReservation", cascade = CascadeType.PERSIST)
     private List<Reservation> reservationList;

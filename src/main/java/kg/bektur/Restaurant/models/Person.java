@@ -8,7 +8,7 @@ import java.util.List;
 @Table(name = "Person")
 public class Person extends AbstractEntity {
     @Id
-    @Column(name = "id")
+    @Column(name = "id", insertable=false, updatable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "username")
