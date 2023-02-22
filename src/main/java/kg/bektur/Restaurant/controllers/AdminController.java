@@ -4,6 +4,8 @@ import kg.bektur.Restaurant.dto.PersonDto;
 import kg.bektur.Restaurant.mapper.PersonMapper;
 import kg.bektur.Restaurant.models.Person;
 import kg.bektur.Restaurant.services.AdminService;
+import kg.bektur.Restaurant.util.ErrorException;
+import kg.bektur.Restaurant.util.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +31,20 @@ public class AdminController {
         return adminService.findAllUsers().stream().map(personMapper::toDto).collect(Collectors.toList());
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping("/user/delete/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {
-        adminService.delete(id);
+        try {
+            adminService.delete(id);
+        } catch (Exception e) {
+            throw new ErrorException("Person with this id not found");
+        }
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handlerException(ErrorException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
 }
