@@ -20,4 +20,8 @@ public class AdminService {
         return peopleRepository.findAll();
     }
 
+    public void delete(Person person) {
+        peopleRepository.delete(person);
+    }
+
 }
