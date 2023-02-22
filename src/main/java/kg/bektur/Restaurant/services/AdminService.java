@@ -55,8 +55,8 @@ public class AdminService {
         restaurantRepository.save(restaurant);
     }
 
-    public void deleteRestaurant(Restaurant restaurant) {
-        restaurantRepository.delete(restaurant);
+    public void deleteRestaurant(int id) {
+        restaurantRepository.deleteById(id);
     }
 
 }
