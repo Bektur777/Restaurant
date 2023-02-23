@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 @Transactional(readOnly = true)
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
-    Optional<Reservation> findReservationByPersonId(int id);
+    Optional<Reservation> findReservationByPersonId(int person_id);
 }
