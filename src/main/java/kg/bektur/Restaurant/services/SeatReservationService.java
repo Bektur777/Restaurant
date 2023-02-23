@@ -16,24 +16,24 @@ public class SeatReservationService {
         this.seatReservationRepository = seatReservationRepository;
     }
 
-    public List<SeatReservation> findAllRestaurants() {
+    public List<SeatReservation> findAllSeatReservations() {
         return seatReservationRepository.findAll();
     }
 
-    public Optional<SeatReservation> findRestaurantById(int id) {
+    public Optional<SeatReservation> findSeatReservationById(int id) {
         return seatReservationRepository.findById(id);
     }
 
-    public void saveRestaurant(SeatReservation seatReservation) {
+    public void saveSeatReservation(SeatReservation seatReservation) {
         seatReservationRepository.save(seatReservation);
     }
 
-    public void updateRestaurant(SeatReservation seatReservation, int id) {
+    public void updateSeatReservation(SeatReservation seatReservation, int id) {
         seatReservation.setId(id);
         seatReservationRepository.save(seatReservation);
     }
 
-    public void deleteRestaurant(int id) {
+    public void deleteSeatReservation(int id) {
         seatReservationRepository.deleteById(id);
     }
 

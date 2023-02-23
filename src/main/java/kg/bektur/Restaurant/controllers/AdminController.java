@@ -2,11 +2,15 @@ package kg.bektur.Restaurant.controllers;
 
 import kg.bektur.Restaurant.dto.PersonDto;
 import kg.bektur.Restaurant.dto.RestaurantDto;
+import kg.bektur.Restaurant.dto.SeatReservationDto;
 import kg.bektur.Restaurant.mapper.PersonMapper;
 import kg.bektur.Restaurant.mapper.RestaurantMapper;
+import kg.bektur.Restaurant.mapper.SeatReservationMapper;
 import kg.bektur.Restaurant.models.Restaurant;
+import kg.bektur.Restaurant.models.SeatReservation;
 import kg.bektur.Restaurant.services.PersonService;
 import kg.bektur.Restaurant.services.RestaurantService;
+import kg.bektur.Restaurant.services.SeatReservationService;
 import kg.bektur.Restaurant.util.ErrorException;
 import kg.bektur.Restaurant.util.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +27,19 @@ import java.util.stream.Collectors;
 public class AdminController {
     private final PersonService personService;
     private final RestaurantService restaurantService;
+    private final SeatReservationService seatReservationService;
     private final PersonMapper personMapper;
     private final RestaurantMapper restaurantMapper;
+    private final SeatReservationMapper seatReservationMapper;
 
     @Autowired
-    public AdminController(PersonService personService, RestaurantService restaurantService, PersonMapper personMapper, RestaurantMapper restaurantMapper) {
+    public AdminController(PersonService personService, RestaurantService restaurantService, SeatReservationService seatReservationService, PersonMapper personMapper, RestaurantMapper restaurantMapper, SeatReservationMapper seatReservationMapper) {
         this.personService = personService;
         this.restaurantService = restaurantService;
+        this.seatReservationService = seatReservationService;
         this.personMapper = personMapper;
         this.restaurantMapper = restaurantMapper;
+        this.seatReservationMapper = seatReservationMapper;
     }
 
     @GetMapping("/all_users")
@@ -98,6 +106,39 @@ public class AdminController {
     @PostMapping("/restaurant/delete/{id}")
     public ResponseEntity<HttpStatus> deleteRestaurant(@PathVariable("id") int id) {
         restaurantService.deleteRestaurant(id);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("/all_seat_reservations")
+    public List<SeatReservationDto> getAllSeatReservations() {
+        return seatReservationService.findAllSeatReservations().stream().map(seatReservationMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/seat_reservation/{id}")
+    public SeatReservationDto getSeatReservationById(@PathVariable("id") int id) {
+        Optional<SeatReservation> seatReservation = seatReservationService.findSeatReservationById(id);
+        if (seatReservation.isPresent())
+            return seatReservationMapper.toDto(seatReservation.get());
+
+        throw new ErrorException("Seat reservation with this id not found");
+    }
+
+    @PostMapping("/seat_reservation/create")
+    public ResponseEntity<HttpStatus> createSeatReservation(@RequestBody SeatReservationDto seatReservationDto) {
+        seatReservationService.saveSeatReservation(seatReservationMapper.toEntity(seatReservationDto));
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PatchMapping("/seat_reservation/update/{id}")
+    public ResponseEntity<HttpStatus> updateSeatReservation(@RequestBody RestaurantDto restaurantDto,
+                                                       @PathVariable("id") int id) {
+        restaurantService.updateRestaurant(restaurantMapper.toEntity(restaurantDto), id);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/seat_reservation/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteSeatReservation(@PathVariable("id") int id) {
+        seatReservationService.deleteSeatReservation(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
