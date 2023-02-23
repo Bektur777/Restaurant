@@ -130,9 +130,9 @@ public class AdminController {
     }
 
     @PatchMapping("/seat_reservation/update/{id}")
-    public ResponseEntity<HttpStatus> updateSeatReservation(@RequestBody RestaurantDto restaurantDto,
+    public ResponseEntity<HttpStatus> updateSeatReservation(@RequestBody SeatReservationDto seatReservationDto,
                                                        @PathVariable("id") int id) {
-        restaurantService.updateRestaurant(restaurantMapper.toEntity(restaurantDto), id);
+        seatReservationService.updateSeatReservation(seatReservationMapper.toEntity(seatReservationDto), id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
