@@ -1,5 +1,7 @@
 package kg.bektur.Restaurant.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,8 +21,10 @@ public class SeatReservation extends AbstractEntity {
     private String description;
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
+    @JsonBackReference
     private Restaurant owner;
     @OneToMany(mappedBy = "seatReservation", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     private List<Reservation> reservationList;
     public SeatReservation() {}
 

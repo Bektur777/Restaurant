@@ -1,5 +1,7 @@
 package kg.bektur.Restaurant.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -17,12 +19,15 @@ public class Reservation extends AbstractEntity {
     private LocalDateTime endDate;
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
+    @JsonBackReference
     private Person person;
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
+    @JsonBackReference
     private SeatReservation seatReservation;
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
+    @JsonBackReference
     private Restaurant restaurant;
 
     public Reservation() {}

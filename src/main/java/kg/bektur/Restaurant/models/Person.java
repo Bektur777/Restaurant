@@ -1,5 +1,6 @@
 package kg.bektur.Restaurant.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class Person extends AbstractEntity {
     @Column(name = "role")
     private String role;
     @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     private List<Reservation> reservations;
 
     public Person() {}
