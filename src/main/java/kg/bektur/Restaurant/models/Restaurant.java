@@ -1,5 +1,7 @@
 package kg.bektur.Restaurant.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -21,10 +23,10 @@ public class Restaurant extends AbstractEntity {
     @Column(name = "phone")
     private String phone;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private List<SeatReservation> seatReservationList;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.PERSIST)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Reservation> reservationList;
 
     public Restaurant() {}

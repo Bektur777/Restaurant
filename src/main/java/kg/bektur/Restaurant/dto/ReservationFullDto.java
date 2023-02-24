@@ -6,13 +6,13 @@ import kg.bektur.Restaurant.models.SeatReservation;
 
 import java.time.LocalDateTime;
 
-public class ReservationDto extends AbstractDto {
+public class ReservationFullDto extends AbstractDto {
     private int id;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private Person person;
-    private SeatReservation seatReservation;
-    private Restaurant restaurant;
+    private int person;
+    private int seatReservation;
+    private int restaurant;
 
     public int getId() {
         return id;
@@ -38,19 +38,27 @@ public class ReservationDto extends AbstractDto {
         this.endDate = endDate;
     }
 
-    public SeatReservation getSeatReservation() {
+    public int getPerson() {
+        return person;
+    }
+
+    public void setPerson(int person) {
+        this.person = person;
+    }
+
+    public int getSeatReservation() {
         return seatReservation;
     }
 
-    public void setSeatReservation(SeatReservation seatReservation) {
+    public void setSeatReservation(int seatReservation) {
         this.seatReservation = seatReservation;
     }
 
-    public Restaurant getRestaurant() {
+    public int getRestaurant() {
         return restaurant;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
+    public void setRestaurant(int restaurant) {
         this.restaurant = restaurant;
     }
 

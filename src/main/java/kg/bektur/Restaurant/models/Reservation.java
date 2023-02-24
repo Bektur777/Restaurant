@@ -2,7 +2,9 @@ package kg.bektur.Restaurant.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "Reservation")
 public class Reservation extends AbstractEntity {
     @Id
-    @Column(name = "id", insertable=false, updatable=false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "start_date")
@@ -19,18 +21,26 @@ public class Reservation extends AbstractEntity {
     private LocalDateTime endDate;
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
-    @JsonBackReference
+    @JsonIgnore
     private Person person;
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
-    @JsonBackReference
+    @JsonIgnore
     private SeatReservation seatReservation;
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
-    @JsonBackReference
+    @JsonIgnore
     private Restaurant restaurant;
 
     public Reservation() {}
+
+    public Reservation(LocalDateTime startDate, LocalDateTime endDate, Person person, SeatReservation seatReservation, Restaurant restaurant) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.person = person;
+        this.seatReservation = seatReservation;
+        this.restaurant = restaurant;
+    }
 
     public int getId() {
         return id;
@@ -77,15 +87,6 @@ public class Reservation extends AbstractEntity {
     }
 
     public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public Reservation(int id, LocalDateTime startDate, LocalDateTime endDate, Person person, SeatReservation seatReservation, Restaurant restaurant) {
-        this.id = id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.person = person;
-        this.seatReservation = seatReservation;
         this.restaurant = restaurant;
     }
 }

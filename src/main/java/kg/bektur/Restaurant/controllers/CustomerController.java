@@ -1,6 +1,8 @@
 package kg.bektur.Restaurant.controllers;
 
 import kg.bektur.Restaurant.dto.ReservationDto;
+import kg.bektur.Restaurant.dto.ReservationFullDto;
+import kg.bektur.Restaurant.mapper.ReservationFullMapper;
 import kg.bektur.Restaurant.mapper.ReservationMapper;
 import kg.bektur.Restaurant.models.Reservation;
 import kg.bektur.Restaurant.services.ReservationService;
