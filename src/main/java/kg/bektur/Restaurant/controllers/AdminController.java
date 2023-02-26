@@ -1,5 +1,6 @@
 package kg.bektur.Restaurant.controllers;
 
+import jakarta.validation.Valid;
 import kg.bektur.Restaurant.dto.PersonDto;
 import kg.bektur.Restaurant.dto.RestaurantDto;
 import kg.bektur.Restaurant.dto.SeatReservationDto;
@@ -48,7 +49,7 @@ public class AdminController {
     }
 
     @GetMapping("/user/{id}")
-    public PersonDto getUserById(@PathVariable("id") int id) {
+    public PersonDto getUserById(@PathVariable("id") Long id) {
         if (personService.findUserById(id).isPresent())
             return personMapper.toDto(personService.findUserById(id).get());
 
@@ -56,7 +57,7 @@ public class AdminController {
     }
 
     @PostMapping("/user/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         try {
             personService.delete(id);
         } catch (Exception e) {
@@ -66,8 +67,8 @@ public class AdminController {
     }
 
     @PatchMapping("/user/update/{id}")
-    public ResponseEntity<HttpStatus> updateUserRole(@RequestBody PersonDto personDto,
-                                                     @PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> updateUserRole(@RequestBody @Valid PersonDto personDto,
+                                                     @PathVariable("id") Long id) {
         try {
             personService.updateRole(personMapper.toEntity(personDto), id);
         } catch (Exception e) {
@@ -82,7 +83,7 @@ public class AdminController {
     }
 
     @GetMapping("/restaurant/{id}")
-    public RestaurantDto getRestaurantById(@PathVariable("id") int id) {
+    public RestaurantDto getRestaurantById(@PathVariable("id") Long id) {
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         if (restaurant.isPresent())
             return restaurantMapper.toDto(restaurant.get());
@@ -91,20 +92,20 @@ public class AdminController {
     }
 
     @PostMapping("/restaurant/create")
-    public ResponseEntity<HttpStatus> createRestaurant(@RequestBody RestaurantDto restaurantDto) {
+    public ResponseEntity<HttpStatus> createRestaurant(@RequestBody @Valid RestaurantDto restaurantDto) {
         restaurantService.saveRestaurant(restaurantMapper.toEntity(restaurantDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/restaurant/update/{id}")
-    public ResponseEntity<HttpStatus> updateRestaurant(@RequestBody RestaurantDto restaurantDto,
-                                                       @PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> updateRestaurant(@RequestBody @Valid RestaurantDto restaurantDto,
+                                                       @PathVariable("id") Long id) {
         restaurantService.updateRestaurant(restaurantMapper.toEntity(restaurantDto), id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("/restaurant/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteRestaurant(@PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> deleteRestaurant(@PathVariable("id") Long id) {
         restaurantService.deleteRestaurant(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -115,7 +116,7 @@ public class AdminController {
     }
 
     @GetMapping("/seat_reservation/{id}")
-    public SeatReservationDto getSeatReservationById(@PathVariable("id") int id) {
+    public SeatReservationDto getSeatReservationById(@PathVariable("id") Long id) {
         Optional<SeatReservation> seatReservation = seatReservationService.findSeatReservationById(id);
         if (seatReservation.isPresent())
             return seatReservationMapper.toDto(seatReservation.get());
@@ -124,20 +125,20 @@ public class AdminController {
     }
 
     @PostMapping("/seat_reservation/create")
-    public ResponseEntity<HttpStatus> createSeatReservation(@RequestBody SeatReservationDto seatReservationDto) {
+    public ResponseEntity<HttpStatus> createSeatReservation(@RequestBody @Valid SeatReservationDto seatReservationDto) {
         seatReservationService.saveSeatReservation(seatReservationMapper.toEntity(seatReservationDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/seat_reservation/update/{id}")
-    public ResponseEntity<HttpStatus> updateSeatReservation(@RequestBody SeatReservationDto seatReservationDto,
-                                                       @PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> updateSeatReservation(@RequestBody @Valid SeatReservationDto seatReservationDto,
+                                                       @PathVariable("id") Long id) {
         seatReservationService.updateSeatReservation(seatReservationMapper.toEntity(seatReservationDto), id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("/seat_reservation/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteSeatReservation(@PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> deleteSeatReservation(@PathVariable("id") Long id) {
         seatReservationService.deleteSeatReservation(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }

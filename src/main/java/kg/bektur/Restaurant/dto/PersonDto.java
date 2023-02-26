@@ -1,20 +1,28 @@
 package kg.bektur.Restaurant.dto;
 
-public class PersonDto extends AbstractDto {
-    private int id;
-    private String username;
-    private String password;
-    private String fullName;
-    private String address;
-    private String email;
-    private String number;
-    private String role;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
-    public int getId() {
+public class PersonDto extends AbstractDto {
+    private Long id;
+    @NotEmpty(message = "The username shouldn't be empty")
+    private String username;
+    @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+ [A-Z]\\w+", message = "The full name should be like 'Joe Joe Joe'")
+    private String fullName;
+    @NotEmpty(message = "The address shouldn't be empty")
+    private String address;
+    @NotEmpty(message = "The email shouldn't be empty")
+    @Email(message = "The email should be valid")
+    private String email;
+    @NotEmpty(message = "The number shouldn't be empty")
+    private String number;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -24,14 +32,6 @@ public class PersonDto extends AbstractDto {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFullName() {
@@ -64,13 +64,5 @@ public class PersonDto extends AbstractDto {
 
     public void setNumber(String number) {
         this.number = number;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 }

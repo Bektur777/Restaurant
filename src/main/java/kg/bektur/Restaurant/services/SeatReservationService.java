@@ -20,7 +20,7 @@ public class SeatReservationService {
         return seatReservationRepository.findAll();
     }
 
-    public Optional<SeatReservation> findSeatReservationById(int id) {
+    public Optional<SeatReservation> findSeatReservationById(Long id) {
         return seatReservationRepository.findById(id);
     }
 
@@ -28,12 +28,12 @@ public class SeatReservationService {
         seatReservationRepository.save(seatReservation);
     }
 
-    public void updateSeatReservation(SeatReservation seatReservation, int id) {
+    public void updateSeatReservation(SeatReservation seatReservation, Long id) {
         seatReservation.setId(id);
         seatReservationRepository.save(seatReservation);
     }
 
-    public void deleteSeatReservation(int id) {
+    public void deleteSeatReservation(Long id) {
         seatReservationRepository.deleteById(id);
     }
 

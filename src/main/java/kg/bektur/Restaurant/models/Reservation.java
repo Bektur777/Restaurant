@@ -14,21 +14,18 @@ public class Reservation extends AbstractEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "start_date")
     private LocalDateTime startDate;
     @Column(name = "end_date")
     private LocalDateTime endDate;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
     @JsonIgnore
     private Person person;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
     @JsonIgnore
     private SeatReservation seatReservation;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable=false, updatable=false)
     @JsonIgnore
     private Restaurant restaurant;
 
@@ -42,11 +39,11 @@ public class Reservation extends AbstractEntity {
         this.restaurant = restaurant;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -88,5 +85,17 @@ public class Reservation extends AbstractEntity {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", person=" + person +
+                ", seatReservation=" + seatReservation +
+                ", restaurant=" + restaurant +
+                '}';
     }
 }

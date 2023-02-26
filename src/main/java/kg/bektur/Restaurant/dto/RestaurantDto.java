@@ -1,24 +1,29 @@
 package kg.bektur.Restaurant.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import kg.bektur.Restaurant.models.Reservation;
 import kg.bektur.Restaurant.models.SeatReservation;
 
 import java.util.List;
 
 public class RestaurantDto extends AbstractDto {
-    private int id;
+    private Long id;
+    @NotEmpty(message = "The name shouldn't be empty")
     private String name;
+    @NotEmpty(message = "The description shouldn't be empty")
     private String description;
+    @NotEmpty(message = "The address shouldn't be empty")
     private String address;
+    @NotEmpty(message = "The phone shouldn't be empty")
     private String phone;
     private List<SeatReservation> seatReservationList;
     private List<Reservation> reservationList;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

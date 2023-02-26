@@ -1,5 +1,6 @@
 package kg.bektur.Restaurant.controllers;
 
+import jakarta.validation.Valid;
 import kg.bektur.Restaurant.dto.AuthenticationDto;
 import kg.bektur.Restaurant.dto.PersonDto;
 import kg.bektur.Restaurant.mapper.PersonMapper;
@@ -29,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public Map<String, String> registration(@RequestBody PersonDto personDto) {
+    public Map<String, String> registration(@RequestBody @Valid PersonDto personDto) {
         Person person = personMapper.toEntity(personDto);
 
         registrationService.register(person);
@@ -38,7 +39,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> performLogin(@RequestBody AuthenticationDto authenticationDto) {
+    public Map<String, String> performLogin(@RequestBody @Valid AuthenticationDto authenticationDto) {
         UsernamePasswordAuthenticationToken authInputToken = new UsernamePasswordAuthenticationToken(
                 authenticationDto.getUsername(),
                 authenticationDto.getPassword()

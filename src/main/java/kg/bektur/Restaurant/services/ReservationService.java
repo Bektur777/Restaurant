@@ -1,6 +1,7 @@
 package kg.bektur.Restaurant.services;
 
-import kg.bektur.Restaurant.dto.ReservationFullDto;
+import kg.bektur.Restaurant.dto.ReservationDto;
+import kg.bektur.Restaurant.mapper.ReservationMapper;
 import kg.bektur.Restaurant.models.Person;
 import kg.bektur.Restaurant.models.Reservation;
 import kg.bektur.Restaurant.models.Restaurant;
@@ -10,13 +11,14 @@ import kg.bektur.Restaurant.repositories.ReservationRepository;
 import kg.bektur.Restaurant.repositories.RestaurantRepository;
 import kg.bektur.Restaurant.repositories.SeatReservationRepository;
 import kg.bektur.Restaurant.util.ErrorException;
-import org.hibernate.Hibernate;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReservationService {
@@ -24,15 +26,21 @@ public class ReservationService {
     private final RestaurantRepository restaurantRepository;
     private final SeatReservationRepository seatReservationRepository;
     private final PeopleRepository peopleRepository;
+    private final PersonDetailsService personDetailsService;
+    private final ReservationMapper reservationMapper;
+    private final ModelMapper mapper;
 
-    public ReservationService(ReservationRepository reservationRepository, RestaurantRepository restaurantRepository, SeatReservationRepository seatReservationRepository, PeopleRepository peopleRepository) {
+    public ReservationService(ReservationRepository reservationRepository, RestaurantRepository restaurantRepository, SeatReservationRepository seatReservationRepository, PeopleRepository peopleRepository, PersonDetailsService personDetailsService, ReservationMapper reservationMapper, ModelMapper mapper) {
         this.reservationRepository = reservationRepository;
         this.restaurantRepository = restaurantRepository;
         this.seatReservationRepository = seatReservationRepository;
         this.peopleRepository = peopleRepository;
+        this.personDetailsService = personDetailsService;
+        this.reservationMapper = reservationMapper;
+        this.mapper = mapper;
     }
 
-    public Optional<Reservation> findReservationByPersonId(int person_id) {
+    public List<Reservation> findReservationByPersonId(Long person_id) {
         return reservationRepository.findReservationByPersonId(person_id);
     }
 
@@ -45,17 +53,18 @@ public class ReservationService {
     }
 
     @Transactional
-    public void addReservation(Reservation reservation) {
-        boolean isAvailable = isAvailable(reservation.getStartDate(), reservation.getEndDate(),
+    public void addReservation(ReservationDto reservationDto) {
+        Reservation reservation = reservationMapper.toEntity(reservationDto);
+
+        Person person = personDetailsService.getCurrentUser();
+        reservation.setPerson(mapper.map(person, Person.class));
+
+        boolean isAvailable = isAvailable(reservationDto.getStartDate(), reservationDto.getEndDate(),
                 reservationRepository.findAllBySeatReservationIdAndRestaurantId(
-                        reservation.getSeatReservation().getId(),
-                        reservation.getRestaurant().getId()));
-        Person person = peopleRepository.findById(reservation.getPerson().getId()).get();
-        Restaurant restaurant = restaurantRepository.findById(reservation.getRestaurant().getId()).get();
-        SeatReservation seatReservation = seatReservationRepository.findById(reservation.getSeatReservation().getId()).get();
-        reservation.setPerson(person);
-        reservation.setRestaurant(restaurant);
-        reservation.setSeatReservation(seatReservation);
+                        reservationDto.getSeatReservation().getId(),
+                        reservationDto.getRestaurant().getId()
+                ));
+
         if (isAvailable) {
             reservationRepository.save(reservation);
         } else {

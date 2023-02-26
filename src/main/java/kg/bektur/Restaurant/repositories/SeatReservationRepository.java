@@ -7,5 +7,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface SeatReservationRepository extends JpaRepository<SeatReservation, Integer> {
+public interface SeatReservationRepository extends JpaRepository<SeatReservation, Long> {
 }

@@ -13,7 +13,7 @@ public class SeatReservation extends AbstractEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "seat_number")
     private int seatNumber;
     @Column(name = "capacity")
@@ -29,11 +29,11 @@ public class SeatReservation extends AbstractEntity {
     private List<Reservation> reservationList;
     public SeatReservation() {}
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

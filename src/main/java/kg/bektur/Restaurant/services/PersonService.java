@@ -22,15 +22,15 @@ public class PersonService {
         return peopleRepository.findAll();
     }
 
-    public Optional<Person> findUserById(int id) {
+    public Optional<Person> findUserById(Long id) {
         return peopleRepository.findById(id);
     }
 
-    public void delete(int id) {
+    public void delete(Long id) {
         peopleRepository.deleteById(id);
     }
 
-    public void updateRole(Person person, int id) {
+    public void updateRole(Person person, Long id) {
         person.setId(id);
         peopleRepository.save(person);
     }

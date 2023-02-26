@@ -19,7 +19,7 @@ public class RestaurantService {
         return restaurantRepository.findAll();
     }
 
-    public Optional<Restaurant> findRestaurantById(int id) {
+    public Optional<Restaurant> findRestaurantById(Long id) {
         return restaurantRepository.findById(id);
     }
 
@@ -27,12 +27,12 @@ public class RestaurantService {
         restaurantRepository.save(restaurant);
     }
 
-    public void updateRestaurant(Restaurant restaurant, int id) {
+    public void updateRestaurant(Restaurant restaurant, Long id) {
         restaurant.setId(id);
         restaurantRepository.save(restaurant);
     }
 
-    public void deleteRestaurant(int id) {
+    public void deleteRestaurant(Long id) {
         restaurantRepository.deleteById(id);
     }
 

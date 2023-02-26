@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
-    Optional<Reservation> findReservationByPersonId(int person_id);
-    List<Reservation> findAllBySeatReservationIdAndRestaurantId(int seatReservation_id, int restaurant_id);
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+    List<Reservation> findReservationByPersonId(Long person_id);
+    List<Reservation> findAllBySeatReservationIdAndRestaurantId(Long seatReservation_id, Long restaurant_id);
 }

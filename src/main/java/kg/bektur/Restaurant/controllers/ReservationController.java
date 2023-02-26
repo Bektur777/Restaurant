@@ -1,10 +1,8 @@
 package kg.bektur.Restaurant.controllers;
 
 import kg.bektur.Restaurant.dto.ReservationDto;
-import kg.bektur.Restaurant.dto.ReservationFullDto;
 import kg.bektur.Restaurant.dto.RestaurantDto;
 import kg.bektur.Restaurant.dto.SeatReservationDto;
-import kg.bektur.Restaurant.mapper.ReservationFullMapper;
 import kg.bektur.Restaurant.mapper.ReservationMapper;
 import kg.bektur.Restaurant.mapper.RestaurantMapper;
 import kg.bektur.Restaurant.mapper.SeatReservationMapper;
@@ -16,11 +14,14 @@ import kg.bektur.Restaurant.services.RestaurantService;
 import kg.bektur.Restaurant.services.SeatReservationService;
 import kg.bektur.Restaurant.util.ErrorException;
 import kg.bektur.Restaurant.util.ErrorResponse;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,15 +35,17 @@ public class ReservationController {
     private final SeatReservationMapper seatReservationMapper;
     private final ReservationService reservationService;
     private final ReservationMapper reservationMapper;
+    private final ModelMapper mapper;
 
     @Autowired
-    public ReservationController(RestaurantService restaurantService, RestaurantMapper restaurantMapper, SeatReservationService seatReservation, SeatReservationMapper seatReservationMapper, ReservationService reservationService, ReservationMapper reservationMapper) {
+    public ReservationController(RestaurantService restaurantService, RestaurantMapper restaurantMapper, SeatReservationService seatReservation, SeatReservationMapper seatReservationMapper, ReservationService reservationService, ReservationMapper reservationMapper, ModelMapper mapper) {
         this.restaurantService = restaurantService;
         this.restaurantMapper = restaurantMapper;
         this.seatReservation = seatReservation;
         this.seatReservationMapper = seatReservationMapper;
         this.reservationService = reservationService;
         this.reservationMapper = reservationMapper;
+        this.mapper = mapper;
     }
 
     @GetMapping("/all_restaurants")
@@ -51,7 +54,7 @@ public class ReservationController {
     }
 
     @GetMapping("/restaurant/{id}")
-    public RestaurantDto getRestaurantById(@PathVariable("id") int id) {
+    public RestaurantDto getRestaurantById(@PathVariable("id") Long id) {
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         if (restaurant.isPresent())
             return restaurantMapper.toDto(restaurant.get());
@@ -65,7 +68,7 @@ public class ReservationController {
     }
 
     @GetMapping("/seat_reservation/{id}")
-    private SeatReservationDto getSeatReservation(@PathVariable("id") int id) {
+    private SeatReservationDto getSeatReservation(@PathVariable("id") Long id) {
         Optional<SeatReservation> sR = seatReservation.findSeatReservationById(id);
         if (sR.isPresent())
             return seatReservationMapper.toDto(sR.get());
@@ -75,8 +78,15 @@ public class ReservationController {
 
     @PostMapping("/add_reservation")
     public ResponseEntity<HttpStatus> addReservation(@RequestBody ReservationDto reservationDto ) {
-        reservationService.addReservation(reservationMapper.toEntity(reservationDto));
+        reservationService.addReservation(reservationDto);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("/reservation/{id}")
+    public List<ReservationDto> getReservations(@PathVariable("id") Long id) {
+        return reservationService.findReservationByPersonId(id).stream()
+                .map(reservationMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @ExceptionHandler
