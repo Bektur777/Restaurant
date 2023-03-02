@@ -1,6 +1,6 @@
 package kg.bektur.Restaurant.config;
 
-import kg.bektur.Restaurant.services.PersonDetailsService;
+import kg.bektur.Restaurant.services.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +17,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final PersonDetailsService personDetailsService;
+    private final UserDetailsService personDetailsService;
     private final JWTFilter jwtFilter;
 
     @Autowired
-    public SecurityConfig(PersonDetailsService personDetailsService, JWTFilter jwtFilter) {
+    public SecurityConfig(UserDetailsService personDetailsService, JWTFilter jwtFilter) {
         this.personDetailsService = personDetailsService;
         this.jwtFilter = jwtFilter;
     }

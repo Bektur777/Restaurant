@@ -6,7 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kg.bektur.Restaurant.security.JWTUtil;
-import kg.bektur.Restaurant.services.PersonDetailsService;
+import kg.bektur.Restaurant.services.UserDetailsService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,9 +18,9 @@ import java.io.IOException;
 @Component
 public class JWTFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
-    private final PersonDetailsService personDetailsService;
+    private final UserDetailsService personDetailsService;
 
-    public JWTFilter(JWTUtil jwtUtil, PersonDetailsService personDetailsService) {
+    public JWTFilter(JWTUtil jwtUtil, UserDetailsService personDetailsService) {
         this.jwtUtil = jwtUtil;
         this.personDetailsService = personDetailsService;
     }

@@ -2,9 +2,9 @@ package kg.bektur.Restaurant.controllers;
 
 import jakarta.validation.Valid;
 import kg.bektur.Restaurant.dto.AuthenticationDto;
-import kg.bektur.Restaurant.dto.PersonDto;
-import kg.bektur.Restaurant.mapper.PersonMapper;
-import kg.bektur.Restaurant.models.Person;
+import kg.bektur.Restaurant.dto.RegistrationDto;
+import kg.bektur.Restaurant.mapper.RegistrationMapper;
+import kg.bektur.Restaurant.models.User;
 import kg.bektur.Restaurant.security.JWTUtil;
 import kg.bektur.Restaurant.services.RegistrationService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,19 +19,19 @@ import java.util.Map;
 public class AuthController {
     private final JWTUtil jwtUtil;
     private final RegistrationService registrationService;
-    private final PersonMapper personMapper;
+    private final RegistrationMapper registrationMapper;
     private final AuthenticationManager authenticationManager;
 
-    public AuthController(JWTUtil jwtUtil, RegistrationService registrationService, PersonMapper personMapper, AuthenticationManager authenticationManager) {
+    public AuthController(JWTUtil jwtUtil, RegistrationService registrationService, RegistrationMapper registrationMapper, AuthenticationManager authenticationManager) {
         this.jwtUtil = jwtUtil;
         this.registrationService = registrationService;
-        this.personMapper = personMapper;
+        this.registrationMapper = registrationMapper;
         this.authenticationManager = authenticationManager;
     }
 
     @PostMapping("/registration")
-    public Map<String, String> registration(@RequestBody @Valid PersonDto personDto) {
-        Person person = personMapper.toEntity(personDto);
+    public Map<String, String> registration(@RequestBody @Valid RegistrationDto registrationDto) {
+        User person = registrationMapper.toEntity(registrationDto);
 
         registrationService.register(person);
 

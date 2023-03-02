@@ -1,6 +1,6 @@
 package kg.bektur.Restaurant.security;
 
-import kg.bektur.Restaurant.models.Person;
+import kg.bektur.Restaurant.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,10 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-public class PersonDetails implements UserDetails {
-    private final Person person;
+public class UserDetailsImpl implements UserDetails {
+    private final User person;
 
-    public PersonDetails(Person person) {
+    public UserDetailsImpl(User person) {
         this.person = person;
     }
 
@@ -50,7 +50,7 @@ public class PersonDetails implements UserDetails {
         return true;
     }
 
-    public Person getPerson() {
+    public User getPerson() {
         return person;
     }
 }

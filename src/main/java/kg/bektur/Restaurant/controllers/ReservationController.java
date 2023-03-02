@@ -6,7 +6,6 @@ import kg.bektur.Restaurant.dto.SeatReservationDto;
 import kg.bektur.Restaurant.mapper.ReservationMapper;
 import kg.bektur.Restaurant.mapper.RestaurantMapper;
 import kg.bektur.Restaurant.mapper.SeatReservationMapper;
-import kg.bektur.Restaurant.models.Reservation;
 import kg.bektur.Restaurant.models.Restaurant;
 import kg.bektur.Restaurant.models.SeatReservation;
 import kg.bektur.Restaurant.services.ReservationService;
@@ -15,13 +14,11 @@ import kg.bektur.Restaurant.services.SeatReservationService;
 import kg.bektur.Restaurant.util.ErrorException;
 import kg.bektur.Restaurant.util.ErrorResponse;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,17 +32,15 @@ public class ReservationController {
     private final SeatReservationMapper seatReservationMapper;
     private final ReservationService reservationService;
     private final ReservationMapper reservationMapper;
-    private final ModelMapper mapper;
 
     @Autowired
-    public ReservationController(RestaurantService restaurantService, RestaurantMapper restaurantMapper, SeatReservationService seatReservation, SeatReservationMapper seatReservationMapper, ReservationService reservationService, ReservationMapper reservationMapper, ModelMapper mapper) {
+    public ReservationController(RestaurantService restaurantService, RestaurantMapper restaurantMapper, SeatReservationService seatReservation, SeatReservationMapper seatReservationMapper, ReservationService reservationService, ReservationMapper reservationMapper) {
         this.restaurantService = restaurantService;
         this.restaurantMapper = restaurantMapper;
         this.seatReservation = seatReservation;
         this.seatReservationMapper = seatReservationMapper;
         this.reservationService = reservationService;
         this.reservationMapper = reservationMapper;
-        this.mapper = mapper;
     }
 
     @GetMapping("/all_restaurants")

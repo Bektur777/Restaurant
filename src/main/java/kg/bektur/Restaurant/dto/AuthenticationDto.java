@@ -1,11 +1,13 @@
 package kg.bektur.Restaurant.dto;
 
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
+@Data
 public class AuthenticationDto {
-    @Size(min = 4, message = "The name should be higher than 4")
+    @Size(min = 1, message = "The name should be higher than 4")
     private String username;
-    @Size(min = 4, message = "The password should be higher than 4")
+    @Size(min = 1, message = "The password should be higher than 4")
     private String password;
 
     public String getUsername() {

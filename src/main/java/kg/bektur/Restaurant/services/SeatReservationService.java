@@ -1,6 +1,6 @@
 package kg.bektur.Restaurant.services;
 
-import kg.bektur.Restaurant.models.Restaurant;
+import jakarta.persistence.EntityManager;
 import kg.bektur.Restaurant.models.SeatReservation;
 import kg.bektur.Restaurant.repositories.SeatReservationRepository;
 import org.springframework.stereotype.Service;
@@ -11,9 +11,11 @@ import java.util.Optional;
 @Service
 public class SeatReservationService {
     private final SeatReservationRepository seatReservationRepository;
+    private final EntityManager entityManager;
 
-    public SeatReservationService(SeatReservationRepository seatReservationRepository) {
+    public SeatReservationService(SeatReservationRepository seatReservationRepository, EntityManager entityManager) {
         this.seatReservationRepository = seatReservationRepository;
+        this.entityManager = entityManager;
     }
 
     public List<SeatReservation> findAllSeatReservations() {
@@ -34,7 +36,7 @@ public class SeatReservationService {
     }
 
     public void deleteSeatReservation(Long id) {
-        seatReservationRepository.deleteById(id);
+        entityManager.remove(seatReservationRepository.findById(id));
     }
 
 }

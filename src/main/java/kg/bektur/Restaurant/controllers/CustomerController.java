@@ -1,8 +1,6 @@
 package kg.bektur.Restaurant.controllers;
 
 import kg.bektur.Restaurant.dto.ReservationDto;
-import kg.bektur.Restaurant.dto.ReservationFullDto;
-import kg.bektur.Restaurant.mapper.ReservationFullMapper;
 import kg.bektur.Restaurant.mapper.ReservationMapper;
 import kg.bektur.Restaurant.models.Reservation;
 import kg.bektur.Restaurant.services.ReservationService;
@@ -13,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

@@ -1,5 +1,6 @@
 package kg.bektur.Restaurant.services;
 
+import jakarta.persistence.EntityManager;
 import kg.bektur.Restaurant.models.Restaurant;
 import kg.bektur.Restaurant.repositories.RestaurantRepository;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,11 @@ import java.util.Optional;
 @Service
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
+    private final EntityManager entityManager;
 
-    public RestaurantService(RestaurantRepository restaurantRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository, EntityManager entityManager) {
         this.restaurantRepository = restaurantRepository;
+        this.entityManager = entityManager;
     }
 
     public List<Restaurant> findAllRestaurants() {
@@ -33,7 +36,7 @@ public class RestaurantService {
     }
 
     public void deleteRestaurant(Long id) {
-        restaurantRepository.deleteById(id);
+        entityManager.remove(restaurantRepository.findById(id));
     }
 
 }

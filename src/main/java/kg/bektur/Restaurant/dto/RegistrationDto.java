@@ -1,14 +1,17 @@
 package kg.bektur.Restaurant.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class PersonDto extends AbstractDto {
+public class RegistrationDto extends AbstractDto{
     @NotEmpty(message = "The username shouldn't be empty")
     private String username;
+    @NotEmpty(message = "The password shouldn't be empty")
+    private String password;
     @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+ [A-Z]\\w+", message = "The full name should be like 'Joe Joe Joe'")
     private String fullName;
     @NotEmpty(message = "The address shouldn't be empty")
@@ -18,5 +21,4 @@ public class PersonDto extends AbstractDto {
     private String email;
     @NotEmpty(message = "The number shouldn't be empty")
     private String number;
-
 }

@@ -9,7 +9,7 @@ import kg.bektur.Restaurant.mapper.RestaurantMapper;
 import kg.bektur.Restaurant.mapper.SeatReservationMapper;
 import kg.bektur.Restaurant.models.Restaurant;
 import kg.bektur.Restaurant.models.SeatReservation;
-import kg.bektur.Restaurant.services.PersonService;
+import kg.bektur.Restaurant.services.UserService;
 import kg.bektur.Restaurant.services.RestaurantService;
 import kg.bektur.Restaurant.services.SeatReservationService;
 import kg.bektur.Restaurant.util.ErrorException;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-    private final PersonService personService;
+    private final UserService userService;
     private final RestaurantService restaurantService;
     private final SeatReservationService seatReservationService;
     private final PersonMapper personMapper;
@@ -34,8 +34,8 @@ public class AdminController {
     private final SeatReservationMapper seatReservationMapper;
 
     @Autowired
-    public AdminController(PersonService personService, RestaurantService restaurantService, SeatReservationService seatReservationService, PersonMapper personMapper, RestaurantMapper restaurantMapper, SeatReservationMapper seatReservationMapper) {
-        this.personService = personService;
+    public AdminController(UserService userService, RestaurantService restaurantService, SeatReservationService seatReservationService, PersonMapper personMapper, RestaurantMapper restaurantMapper, SeatReservationMapper seatReservationMapper) {
+        this.userService = userService;
         this.restaurantService = restaurantService;
         this.seatReservationService = seatReservationService;
         this.personMapper = personMapper;
@@ -45,13 +45,13 @@ public class AdminController {
 
     @GetMapping("/all_users")
     public List<PersonDto> getAllUsers() {
-        return personService.findAllUsers().stream().map(personMapper::toDto).collect(Collectors.toList());
+        return userService.findAllUsers().stream().map(personMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/user/{id}")
     public PersonDto getUserById(@PathVariable("id") Long id) {
-        if (personService.findUserById(id).isPresent())
-            return personMapper.toDto(personService.findUserById(id).get());
+        if (userService.findUserById(id).isPresent())
+            return personMapper.toDto(userService.findUserById(id).get());
 
         throw new ErrorException("User with this id not found");
     }
@@ -59,7 +59,7 @@ public class AdminController {
     @PostMapping("/user/delete/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         try {
-            personService.delete(id);
+            userService.softDeleteById(id);
         } catch (Exception e) {
             throw new ErrorException("Person with this id not found");
         }
@@ -70,7 +70,7 @@ public class AdminController {
     public ResponseEntity<HttpStatus> updateUserRole(@RequestBody @Valid PersonDto personDto,
                                                      @PathVariable("id") Long id) {
         try {
-            personService.updateRole(personMapper.toEntity(personDto), id);
+            userService.updateRole(personMapper.toEntity(personDto), id);
         } catch (Exception e) {
             throw new ErrorException("Error in updating");
         }

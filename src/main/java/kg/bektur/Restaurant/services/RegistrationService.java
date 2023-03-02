@@ -1,9 +1,8 @@
 package kg.bektur.Restaurant.services;
 
 import kg.bektur.Restaurant.enums.Role;
-import kg.bektur.Restaurant.models.Person;
-import kg.bektur.Restaurant.repositories.PeopleRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import kg.bektur.Restaurant.models.User;
+import kg.bektur.Restaurant.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,19 +10,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RegistrationService {
 
-    private final PeopleRepository peopleRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationService(PeopleRepository peopleRepository, PasswordEncoder passwordEncoder) {
-        this.peopleRepository = peopleRepository;
+    public RegistrationService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
-    public void register(Person person) {
+    public void register(User person) {
         person.setPassword(passwordEncoder.encode(person.getPassword()));
         person.setRole(String.valueOf(Role.ROLE_USER));
-        peopleRepository.save(person);
+        userRepository.save(person);
     }
 
 }

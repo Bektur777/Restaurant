@@ -1,6 +1,6 @@
 package kg.bektur.Restaurant.controllers;
 
-import kg.bektur.Restaurant.security.PersonDetails;
+import kg.bektur.Restaurant.security.UserDetailsImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ public class HelloController {
     @GetMapping("/hello")
     public String showUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        UserDetailsImpl personDetails = (UserDetailsImpl) authentication.getPrincipal();
         return personDetails.getUsername();
     }
 }
