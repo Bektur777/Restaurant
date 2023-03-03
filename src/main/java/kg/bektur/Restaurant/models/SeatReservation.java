@@ -3,12 +3,14 @@ package kg.bektur.Restaurant.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "Seat_Reservation")
+@Where(clause = "deleted = false")
 public class SeatReservation extends AbstractEntity {
     @Column(name = "seat_number")
     private int seatNumber;

@@ -43,7 +43,7 @@ public class ReservationController {
         this.reservationMapper = reservationMapper;
     }
 
-    @GetMapping("/all_restaurants")
+    @GetMapping("/all-restaurants")
     public List<RestaurantDto> getAllRestaurants() {
         return restaurantService.findAllRestaurants().stream().map(restaurantMapper::toDto).collect(Collectors.toList());
     }
@@ -57,12 +57,12 @@ public class ReservationController {
         throw new ErrorException("Restaurant with this id not found");
     }
 
-    @GetMapping("/seat_reservations")
+    @GetMapping("/seat-reservations")
     public List<SeatReservationDto> getSeatReservations() {
         return seatReservation.findAllSeatReservations().stream().map(seatReservationMapper::toDto).collect(Collectors.toList());
     }
 
-    @GetMapping("/seat_reservation/{id}")
+    @GetMapping("/seat-reservation/{id}")
     private SeatReservationDto getSeatReservation(@PathVariable("id") Long id) {
         Optional<SeatReservation> sR = seatReservation.findSeatReservationById(id);
         if (sR.isPresent())
@@ -71,7 +71,7 @@ public class ReservationController {
         throw new ErrorException("Seat reservation with this id not found");
     }
 
-    @PostMapping("/add_reservation")
+    @PostMapping("/add-reservation")
     public ResponseEntity<HttpStatus> addReservation(@RequestBody ReservationDto reservationDto ) {
         reservationService.addReservation(reservationDto);
         return ResponseEntity.ok(HttpStatus.OK);

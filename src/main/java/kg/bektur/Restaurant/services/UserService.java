@@ -5,6 +5,7 @@ import kg.bektur.Restaurant.models.User;
 import kg.bektur.Restaurant.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +29,9 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    @Transactional
     public void softDeleteById(Long id) {
-        entityManager.remove(userRepository.findById(id));
+        userRepository.softDelete(id);
     }
 
     public void updateRole(User user, Long id) {

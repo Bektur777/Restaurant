@@ -80,6 +80,12 @@
 			<version>1.18.26</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>9.15.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

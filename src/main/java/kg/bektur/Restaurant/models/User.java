@@ -3,12 +3,14 @@ package kg.bektur.Restaurant.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "Person")
+@Where(clause = "deleted = false")
 public class User extends AbstractEntity {
     @Column(name = "username")
     private String username;

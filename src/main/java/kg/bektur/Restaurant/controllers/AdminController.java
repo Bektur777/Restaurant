@@ -1,10 +1,10 @@
 package kg.bektur.Restaurant.controllers;
 
 import jakarta.validation.Valid;
-import kg.bektur.Restaurant.dto.PersonDto;
+import kg.bektur.Restaurant.dto.UserDto;
 import kg.bektur.Restaurant.dto.RestaurantDto;
 import kg.bektur.Restaurant.dto.SeatReservationDto;
-import kg.bektur.Restaurant.mapper.PersonMapper;
+import kg.bektur.Restaurant.mapper.UserMapper;
 import kg.bektur.Restaurant.mapper.RestaurantMapper;
 import kg.bektur.Restaurant.mapper.SeatReservationMapper;
 import kg.bektur.Restaurant.models.Restaurant;
@@ -29,34 +29,34 @@ public class AdminController {
     private final UserService userService;
     private final RestaurantService restaurantService;
     private final SeatReservationService seatReservationService;
-    private final PersonMapper personMapper;
+    private final UserMapper userMapper;
     private final RestaurantMapper restaurantMapper;
     private final SeatReservationMapper seatReservationMapper;
 
     @Autowired
-    public AdminController(UserService userService, RestaurantService restaurantService, SeatReservationService seatReservationService, PersonMapper personMapper, RestaurantMapper restaurantMapper, SeatReservationMapper seatReservationMapper) {
+    public AdminController(UserService userService, RestaurantService restaurantService, SeatReservationService seatReservationService, UserMapper userMapper, RestaurantMapper restaurantMapper, SeatReservationMapper seatReservationMapper) {
         this.userService = userService;
         this.restaurantService = restaurantService;
         this.seatReservationService = seatReservationService;
-        this.personMapper = personMapper;
+        this.userMapper = userMapper;
         this.restaurantMapper = restaurantMapper;
         this.seatReservationMapper = seatReservationMapper;
     }
 
-    @GetMapping("/all_users")
-    public List<PersonDto> getAllUsers() {
-        return userService.findAllUsers().stream().map(personMapper::toDto).collect(Collectors.toList());
+    @GetMapping("/all-users")
+    public List<UserDto> getAllUsers() {
+        return userService.findAllUsers().stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/user/{id}")
-    public PersonDto getUserById(@PathVariable("id") Long id) {
+    public UserDto getUserById(@PathVariable("id") Long id) {
         if (userService.findUserById(id).isPresent())
-            return personMapper.toDto(userService.findUserById(id).get());
+            return userMapper.toDto(userService.findUserById(id).get());
 
         throw new ErrorException("User with this id not found");
     }
 
-    @PostMapping("/user/delete/{id}")
+    @DeleteMapping("/user/delete/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         try {
             userService.softDeleteById(id);
@@ -66,18 +66,18 @@ public class AdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("/user/update/{id}")
-    public ResponseEntity<HttpStatus> updateUserRole(@RequestBody @Valid PersonDto personDto,
+    @PutMapping("/user/update/{id}")
+    public ResponseEntity<HttpStatus> updateUserRole(@RequestBody @Valid UserDto personDto,
                                                      @PathVariable("id") Long id) {
         try {
-            userService.updateRole(personMapper.toEntity(personDto), id);
+            userService.updateRole(userMapper.toEntity(personDto), id);
         } catch (Exception e) {
             throw new ErrorException("Error in updating");
         }
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("/all_restaurant")
+    @GetMapping("/all-restaurant")
     public List<RestaurantDto> getAllRestaurants() {
         return restaurantService.findAllRestaurants().stream().map(restaurantMapper::toDto).collect(Collectors.toList());
     }
@@ -97,25 +97,25 @@ public class AdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("/restaurant/update/{id}")
+    @PutMapping("/restaurant/update/{id}")
     public ResponseEntity<HttpStatus> updateRestaurant(@RequestBody @Valid RestaurantDto restaurantDto,
                                                        @PathVariable("id") Long id) {
         restaurantService.updateRestaurant(restaurantMapper.toEntity(restaurantDto), id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/restaurant/delete/{id}")
+    @DeleteMapping("/restaurant/delete/{id}")
     public ResponseEntity<HttpStatus> deleteRestaurant(@PathVariable("id") Long id) {
         restaurantService.deleteRestaurant(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("/all_seat_reservations")
+    @GetMapping("/all-seat-reservations")
     public List<SeatReservationDto> getAllSeatReservations() {
         return seatReservationService.findAllSeatReservations().stream().map(seatReservationMapper::toDto).collect(Collectors.toList());
     }
 
-    @GetMapping("/seat_reservation/{id}")
+    @GetMapping("/seat-reservation/{id}")
     public SeatReservationDto getSeatReservationById(@PathVariable("id") Long id) {
         Optional<SeatReservation> seatReservation = seatReservationService.findSeatReservationById(id);
         if (seatReservation.isPresent())
@@ -124,20 +124,20 @@ public class AdminController {
         throw new ErrorException("Seat reservation with this id not found");
     }
 
-    @PostMapping("/seat_reservation/create")
+    @PostMapping("/seat-reservation/create")
     public ResponseEntity<HttpStatus> createSeatReservation(@RequestBody @Valid SeatReservationDto seatReservationDto) {
         seatReservationService.saveSeatReservation(seatReservationMapper.toEntity(seatReservationDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("/seat_reservation/update/{id}")
+    @PutMapping("/seat-reservation/update/{id}")
     public ResponseEntity<HttpStatus> updateSeatReservation(@RequestBody @Valid SeatReservationDto seatReservationDto,
                                                        @PathVariable("id") Long id) {
         seatReservationService.updateSeatReservation(seatReservationMapper.toEntity(seatReservationDto), id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/seat_reservation/delete/{id}")
+    @DeleteMapping("/seat-reservation/delete/{id}")
     public ResponseEntity<HttpStatus> deleteSeatReservation(@PathVariable("id") Long id) {
         seatReservationService.deleteSeatReservation(id);
         return ResponseEntity.ok(HttpStatus.OK);

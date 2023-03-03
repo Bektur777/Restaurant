@@ -14,4 +14,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
+    @Modifying
+    @Query("UPDATE User u SET u.deleted = true WHERE u.id = :id")
+    void softDelete(@Param("id") Long id);
+
 }

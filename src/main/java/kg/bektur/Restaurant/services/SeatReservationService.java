@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import kg.bektur.Restaurant.models.SeatReservation;
 import kg.bektur.Restaurant.repositories.SeatReservationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,11 +12,9 @@ import java.util.Optional;
 @Service
 public class SeatReservationService {
     private final SeatReservationRepository seatReservationRepository;
-    private final EntityManager entityManager;
 
-    public SeatReservationService(SeatReservationRepository seatReservationRepository, EntityManager entityManager) {
+    public SeatReservationService(SeatReservationRepository seatReservationRepository) {
         this.seatReservationRepository = seatReservationRepository;
-        this.entityManager = entityManager;
     }
 
     public List<SeatReservation> findAllSeatReservations() {
@@ -30,13 +29,15 @@ public class SeatReservationService {
         seatReservationRepository.save(seatReservation);
     }
 
+    @Transactional
     public void updateSeatReservation(SeatReservation seatReservation, Long id) {
         seatReservation.setId(id);
         seatReservationRepository.save(seatReservation);
     }
 
+    @Transactional
     public void deleteSeatReservation(Long id) {
-        entityManager.remove(seatReservationRepository.findById(id));
+        seatReservationRepository.softDelete(id);
     }
 
 }

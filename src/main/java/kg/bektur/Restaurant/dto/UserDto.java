@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class PersonDto extends AbstractDto {
+public class UserDto extends AbstractDto {
     @NotEmpty(message = "The username shouldn't be empty")
     private String username;
     @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+ [A-Z]\\w+", message = "The full name should be like 'Joe Joe Joe'")
